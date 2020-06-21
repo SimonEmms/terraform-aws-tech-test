@@ -10,13 +10,13 @@ resource "aws_vpc" "vpc" {
 
 # Create a new load balancer
 resource "aws_elb" "elastic-load-balancer" {
-  availability_zones = ["${var.region}a", "${var.region}b", "${var.region}c"]
+  #availability_zones = ["${var.region}a", "${var.region}b", "${var.region}c"]
 
-  access_logs {
-    bucket        = "foo"
-    bucket_prefix = "bar"
-    interval      = 60
-  }
+  # access_logs {
+  #   bucket        = "foo"
+  #   bucket_prefix = "bar"
+  #   interval      = 60
+  # }
 
   listener {
     instance_port     = 8000
@@ -43,6 +43,7 @@ resource "aws_elb" "elastic-load-balancer" {
 
   instances                   = ["${aws_instance.web-instance-a.id}", "${aws_instance.web-instance-b.id}", "${aws_instance.web-instance-c.id}"]
   subnets = ["${aws_subnet.public-subnet-a.id}", "${aws_subnet.public-subnet-b.id}", "${aws_subnet.public-subnet-c.id}"]
+  security_groups = ["${aws_security_group.web-instance-security-group.id}"]
   cross_zone_load_balancing   = true
   idle_timeout                = 400
   connection_draining         = true
