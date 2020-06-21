@@ -3,41 +3,25 @@ provider "aws" {
 }
 
 resource "aws_vpc" "vpc" {
-  tags = {
-    Name = "SimonEmms"
-    Owner = "Simon Emms"
-    Project = "Tech Test"
-  }
+  tags = var.default_tags
   cidr_block           = var.vpc-cidr
   enable_dns_hostnames = true
 }
 
 resource "aws_subnet" "public-subnet" {
-  tags = {
-    Name = "SimonEmms"
-    Owner = "Simon Emms"
-    Project = "Tech Test"
-  }
+  tags = var.default_tags
   vpc_id            = aws_vpc.vpc.id
   cidr_block        = var.subnet-cidr-public
   availability_zone = "${var.region}a"
 }
 
 resource "aws_route_table" "public-subnet-route-table" {
-  tags = {
-    Name = "SimonEmms"
-    Owner = "Simon Emms"
-    Project = "Tech Test"
-  }
+  tags = var.default_tags
   vpc_id = aws_vpc.vpc.id
 }
 
 resource "aws_internet_gateway" "igw" {
-  tags = {
-    Name = "SimonEmms"
-    Owner = "Simon Emms"
-    Project = "Tech Test"
-  }
+  tags = var.default_tags
   vpc_id = aws_vpc.vpc.id
 }
 
@@ -53,20 +37,12 @@ resource "aws_route_table_association" "public-subnet-route-table-association" {
 }
 
 resource "aws_key_pair" "web" {
-  tags = {
-    Name = "SimonEmms"
-    Owner = "Simon Emms"
-    Project = "Tech Test"
-  }
+  tags = var.default_tags
   public_key = file(pathexpand(var.public_key))
 }
 
 resource "aws_instance" "web-instance" {
-  tags = {
-    Name = "SimonEmms"
-    Owner = "Simon Emms"
-    Project = "Tech Test"
-  }
+  tags = var.default_tags
   ami                         = "ami-cdbfa4ab"
   instance_type               = "t2.small"
   vpc_security_group_ids      = [aws_security_group.web-instance-security-group.id]
@@ -82,11 +58,7 @@ EOF
 }
 
 resource "aws_security_group" "web-instance-security-group" {
-  tags = {
-    Name = "SimonEmms"
-    Owner = "Simon Emms"
-    Project = "Tech Test"
-  }
+  tags = var.default_tags
   vpc_id = aws_vpc.vpc.id
 
   ingress {
