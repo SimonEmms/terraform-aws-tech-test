@@ -4,7 +4,13 @@ variable "region" {
 variable "vpc-cidr" {
 }
 
-variable "subnet-cidr-public" {
+variable "subnet-cidr-public-a" {
+}
+
+variable "subnet-cidr-public-b" {
+}
+
+variable "subnet-cidr-public-c" {
 }
 
 # for the purpose of this exercise use the default key pair on your local system
@@ -13,7 +19,7 @@ variable "public_key" {
 }
 
 variable "default_tags" { 
-    type = "map" 
+    type = map(string) 
     default = { 
         Name = "SimonEmms"
         Owner = "Simon Emms"
